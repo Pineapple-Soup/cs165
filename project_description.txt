@@ -1,0 +1,51 @@
+Operating system: Linux 
+Software required: Crypto libraries. You are allowed to use any utilities to compute a single md5 password hash (but not advanced high-performance password cracking utilities).
+Language: Any language you prefer. Note that speed is important for password cracking.
+
+
+In this project, you are asked to crack passwords from a "stolen" /etc/shadow file on a Linux system (See the file etc_shadow). You will work as teams of two. Each team will crack the password for team[i] where i is the team number that is assigned by the TA. Each line in the file has the hash type, salt, and the hash of the password.
+For instance, consider an example first line "team0:$1$hfT7jp2q$/sDfNdP2e3OCxg2zGq1FK0:16653:0:99999:7:::", 
+$1$ indicates the hash algorithm to be MD5
+$hfT7jp2q$ indicates the salt to be hfT7jp2q
+$/sDfNdP2e3OCxg2zGq1FK0 indicates the password hash to be /sDfNdP2e3OCxg2zGq1FK0
+(note that the colon ":" is the separator)
+
+For more examples, there is a folder called "sample files (for testing and verification only)" where you can find password hashes along with their original passwords (displayed at the end of each line in the solution_file). Note that the sample files are not the actual hashes that you will crack for the project.
+
+A common password cracking strategy is to bruteforce all possible passwords. This can be time-consuming and sometimes inefficient. Therefore, various "dictionary" of commonly used passwords from leaked sources have been used to speed up the process. However, in our case, the passwords are intentionally randomized so that the dictionary approach may not work well. Therefore, you are better off writing your bruteforce-style program to crack the password hashes. Note that there are existing tools that implement bruteforce password cracking on the Internet. You can use any utility that computes a single password hash, taking a password, a salt, and the hash method (i.e., md5) as input. For instance,
+
+You can call 
+
+`openssl passwd -1 -salt xyz  yourpass'
+
+which will generate an output that contains the password hash.
+
+Similarly, you can use the crypt library in python:
+
+hashed_password = crypt.crypt(password, salt);  // salt needs to be in the form of '$1$szy$'
+
+
+What happens behind the scene is that these utilities or APIs in turn invoke the primitive MD5 hash function 1,000 times, to compute the final password hash. More deailed can be found at https://www.vidarholen.net/contents/blog/?p=32. Reference implementations:
+
+Shell: https://www.vidarholen.net/contents/junk/files/md5crypt.bash
+Javascript: https://unix4lyfe.org/crypt/crypt.js
+C: https://github.com/openssh/openssh-portable/blob/master/openbsd-compat/md5.c
+
+Reference that explains the ins and outs of password hashing: https://crackstation.net/hashing-security.htm
+Online tool that generates the password hash (for verification purposes): https://unix4lyfe.org/crypt/
+
+To allow passwords cracked within reasonable amount of time. The passwords for team users are generated with less than or equal to 6 characters (all lowercase letters only). For the bonus user password, it is 8 characters exact (lowercase letters only).
+
+Rules and hints:
+- It is not advised to run your password cracking on a shared server, as it may interfere with others' processes. On some CSE servers, your proceseses may be auto-killed if they are determined to take too much resource. The exact rule is defined by our IT admin (you can contact systems@cs.ucr.edu for details). 
+- Use of your own machines or cloud VMs is preferred. You will likely need multi-threading to speed up the process. Otherwise it may take days to finish (especially if you choose an inefficient method such as command line utilities).
+- (Optional) GPUs can perform hash computations much faster (useful for the bonus points).
+
+
+Submission requirement: 
+- (4 points) Show the correct password for your team user.
+- (4 points) Submit the following in a packaged file (zip or rar). 1) The source code. 2) The number of threads/processes is used. 3) The CPU model that your code is run on. 4) The throughput of password cracking, i.e., the number of candidate passwords tested per second.
+- (2 bonus points) Show the correct password for the bonus user (do not giveaway/copy results across teams), as well as the throughput (if different from above).
+
+
+After successfully completing this project, you can use the cracked password to log in to the server (see the project_server_login_details.txt for details) and obtain the instructions of project 2 and have a head start. The later projects are substantially more time-consuming and it is best that you complete project 1 as early as you can.

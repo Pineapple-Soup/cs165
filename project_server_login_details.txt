@@ -1,0 +1,11 @@
+Note: If you are enrolled as an extension student and the instructions below did not work for you, please email me your UCR NetID and we may need to add your account on the cs165-gateway separately.
+
+Please follow the instructions to login to the server:
+(1) Log in to bolt.cs.ucr.edu via ssh.
+(2) Once you are logged in, type the command below.  It will automatically log you in to cs165-gateway.
+cs165_login
+(3) Now that you are on cs165-gateway, you need to use your cracked password to login to cs165-internal. The command line you would use:
+ssh team[n]@cs165-internal    (team[n] is your team number assigned on the google spreadsheet).
+Project 2's description is located in /home/project2/. Have fun!
+
+Report to us if you encounter any difficulties.
