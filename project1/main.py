@@ -3,6 +3,7 @@ import itertools as it
 import time
 import string
 
+SOURCE = 'examples/etc_shadow'
 TEAM_NUM = 60
 count = 0
 
@@ -15,6 +16,7 @@ def get_data(file_path, team_num):
     return None
 
 def benchmark(charspace, hash, length, cap):
+    print("Running Benchmark...")
     salt = hash.split("$")[2]
     cnt = 0
     time_start = time.time()
@@ -41,7 +43,7 @@ def crack_hash(charspace, hash, length):
 
 
 if __name__ == "__main__":
-    hash = get_data('examples/etc_shadow', TEAM_NUM)
+    hash = get_data(SOURCE, TEAM_NUM)
     benchmark(charspace=string.ascii_lowercase, hash=hash, length=6, cap=10000)
     # crack_hash(string.ascii_lowercase, hash, 6)
     # print(f"Time taken: {time.time() - start} seconds")
