@@ -89,5 +89,4 @@ def main():
                     break
 
 if __name__ == "__main__":
-    # hash = "$1$NpHIlYIA$oECko.sRTw1vQsSSTbM3s0"
     main()
