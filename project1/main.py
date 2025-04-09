@@ -5,17 +5,17 @@ from multiprocessing import Pool, Manager
 from tqdm import tqdm
 
 SOURCE = 'etc_shadow'
-TEAM_NUM = 13
-PROCESS_COUNT = 8
+TEAM = 13
+PROCESS_COUNT = 6
 
 DICT = string.ascii_lowercase
 CHUNK_SIZE = len(DICT) // PROCESS_COUNT
 
-def get_data(file_path, team_num):
+def get_data(file_path, team):
     with open(file_path, 'r') as file:
         data = file.readlines()
     for d in data:
-        if str(team_num) in d:
+        if str(team) in d:
             return d.split(':')[1]
     return None
 
@@ -58,7 +58,7 @@ def make_charspace(dictionary, chunk):
     return chunk+dictionary.replace(chunk, '')
 
 def main():
-    hash = get_data(SOURCE, TEAM_NUM)
+    hash = get_data(SOURCE, TEAM)
     # hash = "$1$NpHIlYIA$oECko.sRTw1vQsSSTbM3s0" # Password: aaaccc
     chunks = [DICT[i:i + CHUNK_SIZE] for i in range(0, len(DICT), CHUNK_SIZE)]
     charspaces = [make_charspace(DICT, chunk) for chunk in chunks]
@@ -79,7 +79,7 @@ def main():
         time_end = time.time()
 
         for result in results:
-            if result:
+            if result.get() is not None:
                 password, count = result.get()
                 if password:
                     print(f"Password found: {password} in {time_end - time_start} seconds")
